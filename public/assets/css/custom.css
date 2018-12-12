@@ -1,0 +1,142 @@
+.navbar-brand {
+	font-size: 18px !important;
+}
+
+.label-indicator-absolute .password-indicator-label-absolute {
+	top: 70% !important;
+}
+
+#external-events .fc-event {
+    cursor: move;
+}
+
+.tt-menu {
+	width: auto;
+}
+
+.row-colors > div > span {
+	padding: 20px;
+    position: relative;
+    outline: 0;
+    margin-top: 0;
+    border-radius: 3px;
+    color: #fff;
+}
+
+.table-inbox .table-inbox-label {
+    width: 100px;
+}
+
+.table-inbox .table-inbox-time {
+    text-align: right;
+    width: 120px;
+}
+
+.border-top-light-grey {
+    border-top-color: #e5e5e5 !important;
+}
+
+.border-bottom-light-grey {
+    border-bottom-color: #e5e5e5 !important;
+}
+
+.table.table-borderless td, .table.table-borderless th {
+    border: 0 !important;
+}
+
+.table.table-borderless {
+    margin-bottom: 0px;
+}
+
+.inline-block {
+    display: inline-block !important;
+}
+
+.pre-scrollable {
+    max-height: 500px !important;
+}
+
+@media (min-width: 769px) {
+    .label-xlg {
+        font-size: 15px;
+        padding-top: 11px;
+    }
+}
+
+.form-underline {
+    border-bottom-width: 1px;
+    border-bottom-style: dashed;
+    border-bottom-color: #ddd;
+    color: #333333;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.form-underline p {
+    margin-bottom: 0 !important;
+}
+
+.note-frame.panel {
+    margin-bottom: 0 !important;
+}
+
+.mb-30 {
+    margin-bottom: 30px !important;
+}
+
+.mt-30 {
+    margin-top: 30px !important;
+}
+
+.mt-50 {
+    margin-top: 50px !important;
+}
+
+.mt-100 {
+    margin-top: 100px;
+}
+
+.typeahead-scrollable .tt-dropdown-menu {
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.bootstrap-tagsinput {
+    border-bottom: 1px #e5e5e5 solid !important;
+}
+
+.ptb-2 {
+    padding-bottom: 2px !important;
+    padding-top: 2px !important;
+}
+
+.mb-2 {
+    margin-bottom: 2px !important;
+}
+
+.btn-text-lowercase {
+    text-transform: lowercase !important;
+    font-weight: normal !important;
+}
+
+.select2-selection--multiple:not([class*=bg-]) .select2-selection__choice, .bootstrap-tagsinput .tag {
+    border-radius: 3px;
+}
+
+.select2-selection--multiple:not([class*=bg-]) .select2-selection__choice:hover, .select2-selection--multiple:not([class*=bg-]) .select2-selection__choice:focus {
+    background-color: #009688;
+    color: #fff;
+}
+
+.text-1-em {
+    font-size: 1.1em !important;
+}
+
+.login-container .footer {
+    bottom: 10px;
+}
+
+.absolute-center-20 {
+    left: 20px !important;
+    right: 20px !important;
+}

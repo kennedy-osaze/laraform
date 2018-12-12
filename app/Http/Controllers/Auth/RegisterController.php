@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -24,13 +25,6 @@ class RegisterController extends Controller
     use RegistersUsers;
 
     /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
      * Create a new controller instance.
      *
      * @return void
@@ -38,6 +32,17 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        $user = $this->create($request->all());
+
+        $user->sendEmailVerificationNotification();
+
+        return view('auth.register-complete', compact('user'));
     }
 
     /**
@@ -49,9 +54,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'first_name' => ['required', 'string', 'min:3', 'max:100'],
+            'last_name' => ['required', 'string', 'min:3', 'max:100'],
+            'email' => ['required', 'string', 'email', 'max:190', 'unique:users,email,null,id,deleted_at,null'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
 
@@ -64,9 +70,11 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
+            'first_name' => ucwords($data['first_name'], '- '),
+            'last_name' => ucwords($data['last_name'], '- '),
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'email_token' => str_random(64),
         ]);
     }
 }
