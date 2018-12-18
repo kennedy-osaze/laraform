@@ -175,6 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        Mews\Purifier\PurifierServiceProvider::class,
     ],
 
     /*
@@ -224,6 +225,9 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        'Purifier' => Mews\Purifier\Facades\Purifier::class,
+        'Moment' => Carbon\Carbon::class,
+        'Str' => Illuminate\Support\Str::class,
     ],
 
 ];

@@ -127,8 +127,80 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        //form questions
+        'short_answer.*.question' => [
+            'required' => 'Each short answer question is required',
+            'min' => 'Each short answer question must be at least :min characters',
+            'max' => 'Each short answer question must not be more than :max characters',
+        ],
+        'long_answer.*.question' => [
+            'required' => 'Each long answer question is required',
+            'min' => 'Each long answer question must be at least :min characters',
+            'max' => 'Each long answer question must not be more than :max characters',
+        ],
+        'multiple_choices.*.question' => [
+            'required' => 'Each multiple choice question is required',
+            'min' => 'Each multiple choice question must be at least :min characters',
+            'max' => 'Each multiple choice question must not be more than :max characters',
+        ],
+        'checkboxes.*.question' => [
+            'required' => 'Each checkbox question is required',
+            'min' => 'Each checkbox question must be at least :min characters',
+            'max' => 'Each checkbox question must not be more than :max characters',
+        ],
+        'drop_down.*.question' => [
+            'required' => 'Each drop down question is required',
+            'min' => 'Each drop down question must be at least :min characters',
+            'max' => 'Each drop down question must not be more than :max characters',
+        ],
+        'linear_scale.*.question' => [
+            'required' => 'Each linear scale question is required',
+            'min' => 'Each linear scale question must be at least :min characters',
+            'max' => 'Each linear scale question must not be more than :max characters',
+        ],
+        'date.*.question' => [
+            'required' => 'Each date question is required',
+            'min' => 'Each date question must be at least :min characters',
+            'max' => 'Each date question must not be more than :max characters',
+        ],
+        'time.*.question' => [
+            'required' => 'Each time question is required',
+            'min' => 'Each time question must be at least :min characters',
+            'max' => 'Each time question must not be more than :max characters',
+        ],
+        'multiple_choices.*.options.*' => [
+            'required_with' => 'Each multiple choice question must have at least one option',
+            'string' => 'Each multiple choice question must have at least one option',
+            'min' => 'Each multiple choice question option must be at least :min characters',
+            'max' => 'Each multiple choice question option must not be more than :max characters',
+        ],
+        'checkboxes.*.options.*' => [
+            'required_with' => 'Each checkbox question must have at least one option',
+            'string' => 'Each checkbox question must have at least one option',
+            'min' => 'Each checkbox question option must be at least :min characters',
+            'max' => 'Each checkbox question option must not be more than :max characters',
+        ],
+        'drop_down.*.options.*' => [
+            'required_with' => 'Each drop down question must have at least one option',
+            'string' => 'Each drop down question must have at least one option',
+            'min' => 'Each drop down question option must be at least :min characters',
+            'max' => 'Each drop down question option must not be more than :max characters',
+        ],
+        'linear_scale.*.options.min.value' => [
+            'required_with' => 'Each linear scale question must have at least a minimum scale value',
+            'in' => 'Invalid minimum scale value'
+        ],
+        'linear_scale.*.options.min.label' => [
+            'min' => 'Each linear scale question minimum label must be at least :min characters',
+            'max' => 'Each drop down question minimum label must not be more than :max characters',
+        ],
+        'linear_scale.*.options.max.value' => [
+            'required_with' => 'Each linear scale question must have at least a maximum scale value',
+            'in' => 'Invalid maximum scale value'
+        ],
+        'linear_scale.*.options.max.label' => [
+            'min' => 'Each linear scale question maximum label must be at least :min characters',
+            'max' => 'Each drop down question maximum label must not be more than :max characters',
         ],
     ],
 

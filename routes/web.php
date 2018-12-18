@@ -11,9 +11,11 @@
 |
 */
 
-Route::get('demo', function () {
-    $status = '' ?? null;
-    dd(isset($status));
+Route::get('/', function () { return view('welcome'); })->name('home');
+
+Route::namespace('Form')->group(function () {
+    Route::get('form/{form}/view', 'FormController@viewForm')->name('forms.view');
+    Route::post('form/{form}/submit', 'ResponseController@store')->name('forms.responses.store');
 });
 
 // Authentication Routes...
@@ -38,6 +40,27 @@ Route::namespace('Auth')->group(function () {
 });
 
 //Dashboard Routes
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/', 'FormController@index')->name('home');
+Route::middleware(['auth', 'verified'])->namespace('Form')->group(function () {
+    //Form Routes
+    Route::get('forms', 'FormController@index')->name('forms.index');
+    Route::get('forms/create', 'FormController@create')->name('forms.create');
+    Route::post('forms', 'FormController@store')->name('forms.store');
+    Route::get('forms/{form}', 'FormController@show')->name('forms.show');
+    Route::get('forms/{form}/edit', 'FormController@edit')->name('forms.edit');
+    Route::put('forms/{form}', 'FormController@update')->name('forms.update');
+    Route::delete('forms/{form}', 'FormController@destroy')->name('forms.destroy');
+
+    Route::post('forms/{form}/draft', 'FormController@draftForm')->name('forms.draft');
+    Route::get('forms/{form}/preview', 'FormController@previewForm')->name('forms.preview');
+    Route::post('forms/{form}/open', 'FormController@openFormForResponse')->name('forms.open');
+    Route::post('forms/{form}/close', 'FormController@closeFormToResponse')->name('forms.close');
+
+    //Form Field Routes
+    Route::post('form/{form}/fields/add', 'FieldController@store')->name('forms.fields.store');
+    Route::post('form/{form}/fields/delete', 'FieldController@destroy')->name('forms.fields.destroy');
+
+    //Form Response Routes
+    Route::get('form/{form}/responses', 'ResponseController@index')->name('forms.responses.index');
+    Route::post('form/{form}/responses', 'ResponseController@store')->name('forms.responses.store');
+    Route::get('form/{form}/responses/{response}', 'ResponseController@show')->name('forms.responses.show');
 });

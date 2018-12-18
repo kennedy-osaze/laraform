@@ -50,4 +50,9 @@ class User extends Authenticatable
     {
         return is_null($this->email_token);
     }
+
+    public function forms()
+    {
+        return $this->hasMany(Form::class);
+    }
 }

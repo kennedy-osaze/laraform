@@ -140,3 +140,9 @@
     left: 20px !important;
     right: 20px !important;
 }
+
+/*@media (min-width: 769px) {
+    .has-detached-right .sidebar-detached.affix {
+        left: 995px;
+    }
+}*/
