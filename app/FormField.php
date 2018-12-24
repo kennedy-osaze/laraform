@@ -20,7 +20,7 @@ class FormField extends Model
         'options' => 'array',
     ];
 
-    protected $cascadeDeletes = [];
+    protected $cascadeDeletes = ['responses'];
 
     public function scopeFilled($query)
     {
@@ -32,8 +32,67 @@ class FormField extends Model
         return $this->belongsTo(Form::class);
     }
 
-    public static function templateAliasesWithOptions()
+    public function responses()
     {
-        return get_form_templates()->where('attribute_type', 'array')->pluck('alias')->all();
+        return $this->hasMany(FieldResponse::class);
+    }
+
+    public function getResponseSummaryDataForChart()
+    {
+        $responses = $this->responses;
+
+        if ($responses->isEmpty()) {
+            return [];
+        }
+
+        $use_chart = '';
+        $data = [];
+
+        switch ($this->template) {
+            case 'drop-down':
+            case 'multiple-choices':
+            case 'checkboxes':
+                $use_chart = ($this->template == 'checkboxes') ? 'h_bar_chart' : 'pie_chart';
+
+                $data[] = ($this->template == 'drop-down')
+                    ? ['Option', 'No. of option selected']
+                    : ['Choice', 'No. of choice selected'];
+
+                foreach ($this->options as $option) {
+                    if ($this->template == 'checkboxes') {
+                        $option_selected_count = $responses->filter(function ($v, $k) use ($option) {
+                            $value = (array) json_decode($v->answer);
+                            return in_array($option, $value);
+                        })->count();
+                    } else {
+                        $option_selected_count = $responses->where('answer', $option)->count();
+                    }
+
+                    array_push($data, [$option, $option_selected_count]);
+                }
+
+                break;
+
+            case 'linear-scale':
+                $use_chart = 'v_bar_chart';
+                $min = $this->options['min'];
+                $max = $this->options['max'];
+
+                $data[] = ['Scale value', 'Count'];
+
+                foreach (range((int) $min['value'], (int) $max['value']) as $value) {
+                    $value_selected_counts = $responses->where('answer', $value)->count();
+
+                    array_push($data, [$value, $value_selected_counts]);
+                }
+
+                break;
+        }
+
+        return [
+            'chart' => $use_chart,
+            'name' => str_replace('.', '_', $this->attribute),
+            'data' => $data
+        ];
     }
 }

@@ -146,3 +146,19 @@
         left: 995px;
     }
 }*/
+
+.table-striped-info>tbody>tr:nth-of-type(odd) {
+    background-color: #E0F7FA;
+}
+
+.table-framed-info {
+    border-color: #E0F7FA;
+}
+
+.table-framed-info>tbody>tr>td {
+    border-top-color: #00bcd445;
+}
+
+.table>tbody>tr>td>p {
+    margin-bottom: 0;
+}

@@ -248,12 +248,12 @@ class FormController extends Controller
         $not_allowed = ($form->status !== Form::STATUS_OPEN);
         abort_if($not_allowed, 403);
 
-        $form->status = Form::CLOSED;
+        $form->status = Form::STATUS_CLOSED;
         $form->save();
 
         session()->flash('show', [
             'status' => 'success',
-            'message' => 'The form has been successfully closed. You can reopen it you want to.',
+            'message' => 'The form has been successfully closed. You can reopen it if you want to.',
         ]);
 
         return redirect()->route('forms.show', $form->code);
@@ -261,10 +261,10 @@ class FormController extends Controller
 
     public function viewForm(Form $form)
     {
-        $not_allowed = ($form->status !== Form::OPEN);
+        $not_allowed = ($form->status !== Form::STATUS_OPEN);
         abort_if($not_allowed, 404);
 
-        return view('forms.forms.view_form', ['form' => $form, 'view_type' => 'form']);
+        return view('forms.form.view_form', ['form' => $form, 'view_type' => 'form']);
     }
 
     public function destroy($form)

@@ -17,7 +17,7 @@ class Form extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $cascadeDeletes = ['fields'];
+    protected $cascadeDeletes = ['fields', 'responses'];
 
     protected $fillable = [
         'user_id', 'title', 'description', 'code', 'status',
@@ -36,6 +36,11 @@ class Form extends Model
     public function fields()
     {
         return $this->hasMany(FormField::class);
+    }
+
+    public function responses()
+    {
+        return $this->hasMany(FormResponse::class);
     }
 
     public function generateCode()

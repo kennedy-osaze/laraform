@@ -43,7 +43,7 @@ $fields = $form->fields()->filled()->get();
                     </div>
 
                     <div class="text-left mt-20">
-                        <button type="{{ ($view_type === 'form') ? 'submit' : 'button' }}" class="btn btn-primary" data-loading-text="Please Wait..." data-complete-text="Submit Form">Submit Form</button>
+                        <button id="submit" type="{{ ($view_type === 'form') ? 'submit' : 'button' }}" class="btn btn-primary" data-loading-text="Please Wait..." data-complete-text="Submit Form">Submit Form</button>
                     </div>
                 </form>
             </div>

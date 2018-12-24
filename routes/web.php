@@ -11,11 +11,15 @@
 |
 */
 
+Route::get('demo', function () {
+
+});
+
 Route::get('/', function () { return view('welcome'); })->name('home');
 
 Route::namespace('Form')->group(function () {
-    Route::get('form/{form}/view', 'FormController@viewForm')->name('forms.view');
-    Route::post('form/{form}/submit', 'ResponseController@store')->name('forms.responses.store');
+    Route::get('forms/{form}/view', 'FormController@viewForm')->name('forms.view');
+    Route::post('forms/{form}/responses', 'ResponseController@store')->name('forms.responses.store');
 });
 
 // Authentication Routes...
@@ -56,11 +60,12 @@ Route::middleware(['auth', 'verified'])->namespace('Form')->group(function () {
     Route::post('forms/{form}/close', 'FormController@closeFormToResponse')->name('forms.close');
 
     //Form Field Routes
-    Route::post('form/{form}/fields/add', 'FieldController@store')->name('forms.fields.store');
-    Route::post('form/{form}/fields/delete', 'FieldController@destroy')->name('forms.fields.destroy');
+    Route::post('forms/{form}/fields/add', 'FieldController@store')->name('forms.fields.store');
+    Route::post('forms/{form}/fields/delete', 'FieldController@destroy')->name('forms.fields.destroy');
 
     //Form Response Routes
-    Route::get('form/{form}/responses', 'ResponseController@index')->name('forms.responses.index');
-    Route::post('form/{form}/responses', 'ResponseController@store')->name('forms.responses.store');
-    Route::get('form/{form}/responses/{response}', 'ResponseController@show')->name('forms.responses.show');
+    Route::get('forms/{form}/responses', 'ResponseController@index')->name('forms.responses.index');
+    Route::get('forms/{form}/responses/download', 'ResponseController@export')->name('forms.response.export');
+    Route::delete('forms/{form}/responses', 'ResponseController@destroyAll')->name('forms.responses.destroy.all');
+    Route::delete('forms/{form}/responses/{response}', 'ResponseController@destroy')->name('forms.responses.destroy.single');
 });

@@ -13,6 +13,8 @@
 
 @section('content')
 
+@include('partials.alert', ['name' => 'show'])
+
 <div class="panel panel-flat">
     <div class="panel-heading">
         @php $symbol = $form::getStatusSymbols()[$form->status]; @endphp
@@ -22,6 +24,21 @@
                 <button class="btn btn-xs btn-success">Menu</button>
                 <button class="btn btn-xs btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
                 <ul class="dropdown-menu dropdown-menu-right">
+                    @if ($form->status === $form::STATUS_OPEN)
+                        <li><a href="#">Share Form</a></li>
+                    @endif
+                    @if (in_array($form->status, [$form::STATUS_PENDING, $form::STATUS_CLOSED]))
+                        <li><a href="{{ route('forms.open', $form->code) }}" data-method="post">Open Form for Response</a></li>
+                    @endif
+                    @if ($form->status === $form::STATUS_OPEN)
+                        <li><a href="{{ route('forms.close', $form->code) }}" data-method="post">Close Form to Response</a></li>
+                    @endif
+                    @if (in_array($form->status, [$form::STATUS_OPEN, $form::STATUS_CLOSED]))
+                        <li><a href="{{ route('forms.responses.index', $form->code) }}">View Responses</a></li>
+                    @endif
+                    @if (in_array($form->status, [$form::STATUS_OPEN, $form::STATUS_CLOSED, $form::STATUS_PENDING]))
+                        <li class="divider"></li>
+                    @endif
                     <li><a href="{{ route('forms.edit', $form->code) }}">Edit</a></li>
                     @if ($form->status !== $form::STATUS_OPEN)
                         <li><a href="javascript:void(0)" id="delete-button" data-href="{{ route('forms.destroy', $form->code) }}" data-item="form - {{ $form->title }}">Delete</a></li>
@@ -35,8 +52,6 @@
         {!! str_convert_line_breaks($form->description) !!}
     </div>
 </div>
-
-@include('partials.alert', ['name' => 'show'])
 
 <div class="panel panel-body">
 	In order to create a form, you need to click on any on the question type in the presentation section (right sidebar) below. Please ensure that you fill in the appropriate field before submitting.

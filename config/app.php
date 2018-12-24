@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Mews\Purifier\PurifierServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -228,6 +229,7 @@ return [
         'Purifier' => Mews\Purifier\Facades\Purifier::class,
         'Moment' => Carbon\Carbon::class,
         'Str' => Illuminate\Support\Str::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];
