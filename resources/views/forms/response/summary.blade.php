@@ -50,7 +50,7 @@
     @endforeach
 </div>
 
-@section('page-script')
+@push('script')
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="{{ asset('assets/js/custom/pages/response-summary.js') }}"></script>
     <script>
@@ -71,4 +71,4 @@
             });
         });
     </script>
-@endsection
+@endpush

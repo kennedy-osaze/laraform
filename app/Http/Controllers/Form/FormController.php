@@ -267,6 +267,67 @@ class FormController extends Controller
         return view('forms.form.view_form', ['form' => $form, 'view_type' => 'form']);
     }
 
+    public function shareViaEmail(Request $request, $form)
+    {
+        if ($request->ajax()) {
+            $form = Form::where('code', $form)->first();
+
+            $current_user = Auth::user();
+            if (!$form || $form->user_id !== $current_user->id) {
+                return response()->json([
+                    'success' => false,
+                    'error_message' => 'not_found',
+                    'error' => 'Form is invalid'
+                ]);
+            }
+
+            if ($form->status !== Form::STATUS_OPEN) {
+                return response()->json([
+                    'success' => false,
+                    'error_message' => 'not_allowed',
+                    'error' => 'Form cannot be shared with others as it is not open yet.'
+                ]);
+            }
+
+            if ($request->emails) {
+                $emails = explode(',', $request->emails);
+                $request->merge([
+                    'recipients_emails' => $emails,
+                ]);
+            }
+
+            $validator = Validator::make($request->all(), [
+                'emails' => 'required|string',
+                'recipients_emails' => 'max:20',
+                'recipients_emails.*' => 'email|max:255',
+                'email_subject' => 'required|string|min:3|max:255',
+                'email_message' => 'required|string|min_words:3|max:30000',
+            ]);
+
+            if ($validator->fails()) {
+                $errors = collect($validator->errors())->flatten();
+                return response()->json([
+                    'success' => false,
+                    'error_message' => 'validation_failed',
+                    'error' => $errors->first()
+                ]);
+            }
+
+            $data = array_merge($request->except(['_token', 'emails', 'recipients_emails']), [
+                'user_name' => $current_user->full_name,
+                'user_email' => $current_user->email,
+            ]);
+
+            foreach ($request->recipients_emails as $email) {
+                $form->shareFormViaMail($email, $data);
+            }
+
+            return response()->json([
+                'success' => true
+            ]);
+        }
+    }
+
     public function destroy($form)
     {
         if (request()->ajax()) {

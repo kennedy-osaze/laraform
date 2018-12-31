@@ -59,6 +59,8 @@ Route::middleware(['auth', 'verified'])->namespace('Form')->group(function () {
     Route::post('forms/{form}/open', 'FormController@openFormForResponse')->name('forms.open');
     Route::post('forms/{form}/close', 'FormController@closeFormToResponse')->name('forms.close');
 
+    Route::post('forms/{form}/share-via-email', 'FormController@shareViaEmail')->name('form.share.email');
+
     //Form Field Routes
     Route::post('forms/{form}/fields/add', 'FieldController@store')->name('forms.fields.store');
     Route::post('forms/{form}/fields/delete', 'FieldController@destroy')->name('forms.fields.destroy');

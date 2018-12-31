@@ -21,30 +21,7 @@
         <h5 class="panel-title">{{ $form->title }} <span class="label bg-{{ $symbol['color'] }} position-left">{{ $symbol['label'] }}</span></h5>
         <div class="heading-elements">
             <div class="btn-group heading-btn">
-                <button class="btn btn-xs btn-success">Menu</button>
-                <button class="btn btn-xs btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-                <ul class="dropdown-menu dropdown-menu-right">
-                    @if ($form->status === $form::STATUS_OPEN)
-                        <li><a href="#">Share Form</a></li>
-                    @endif
-                    @if (in_array($form->status, [$form::STATUS_PENDING, $form::STATUS_CLOSED]))
-                        <li><a href="{{ route('forms.open', $form->code) }}" data-method="post">Open Form for Response</a></li>
-                    @endif
-                    @if ($form->status === $form::STATUS_OPEN)
-                        <li><a href="{{ route('forms.close', $form->code) }}" data-method="post">Close Form to Response</a></li>
-                    @endif
-                    @if (in_array($form->status, [$form::STATUS_OPEN, $form::STATUS_CLOSED]))
-                        <li><a href="{{ route('forms.responses.index', $form->code) }}">View Responses</a></li>
-                    @endif
-                    @if (in_array($form->status, [$form::STATUS_OPEN, $form::STATUS_CLOSED, $form::STATUS_PENDING]))
-                        <li class="divider"></li>
-                    @endif
-                    <li><a href="{{ route('forms.edit', $form->code) }}">Edit</a></li>
-                    @if ($form->status !== $form::STATUS_OPEN)
-                        <li><a href="javascript:void(0)" id="delete-button" data-href="{{ route('forms.destroy', $form->code) }}" data-item="form - {{ $form->title }}">Delete</a></li>
-                    @endif
-                    <li><a href="{{ route('forms.index') }}">All Forms</a></li>
-                </ul>
+                @include('forms.partials._form-menu')
             </div>
         </div>
     </div>
@@ -120,13 +97,20 @@
 		</div>
 	</div>
 </div>
+
+@if ($form->status === $form::STATUS_OPEN)
+    @include('forms.partials._form-share')
+@endif
+@include('forms.partials._form-collaborate')
 @endsection
 
 @section('plugin-scripts')
 	<script src="{{ asset('assets/js/plugins/uniform.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/bootbox.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/autosize.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/nicescroll.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/noty.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/tagsinput.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/switchery.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/bootstrap_select.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/validation/validate.min.js') }}"></script>
@@ -137,4 +121,5 @@
     <script src="{{ asset('assets/js/custom/pages/validation.js') }}"></script>
     <script src="{{ asset('assets/js/custom/detached-sticky.js') }}"></script>
     @include('forms.partials._script-show')
+    @stack('script')
 @endsection

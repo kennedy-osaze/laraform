@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Mail;
+use App\Mail\ShareFormLinkMail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Iatstuti\Database\Support\CascadeSoftDeletes;
@@ -48,6 +50,12 @@ class Form extends Model
         do {
             $this->code = str_random(32);
         } while (static::where('code', $this->code)->exists());
+    }
+
+    public function shareFormViaMail($email, $data)
+    {
+        $message = new ShareFormLinkMail($this, $data);
+        Mail::to($email)->send($message);
     }
 
     public static function getStatusSymbols()

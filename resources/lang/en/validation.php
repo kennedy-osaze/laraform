@@ -202,6 +202,17 @@ return [
             'min' => 'Each linear scale question maximum label must be at least :min characters',
             'max' => 'Each drop down question maximum label must not be more than :max characters',
         ],
+
+        'emails' => [
+            'required' => 'At least one email address is required',
+        ],
+        'recipients_emails' => [
+            'max' => 'The email addresses entered should not be more than :max'
+        ],
+        'recipients_emails.*' => [
+            'email' => 'One (or more) of the email addresses provided is not valid',
+            'max' => 'The maximum length for each email address is 255'
+        ]
     ],
 
     /*

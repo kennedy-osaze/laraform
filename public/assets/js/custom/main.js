@@ -1,6 +1,6 @@
 $(function() {
 	window.csrf_token = csrfToken();
-	
+
 	var $initiator = null;
 
 	$('.greeting').text(getGreeting());
@@ -37,7 +37,7 @@ $(function() {
 		    		$link.hide().appendTo('body');
 		    		$link[0].click();
 		    	}
-		    }			
+		    }
 		});
 	});
 
@@ -49,13 +49,13 @@ $(function() {
 	// 		data: data_serialized,
 	// 	})
 	// 	.done(function (response) {
-	// 		$(this).find('.no-click').addClass("text-muted");	
+	// 		$(this).find('.no-click').addClass("text-muted");
 	// 	});
 	// });
 
 	$(document).on('click', 'a[href]', function (e) {
 		var method = $(this).data('method');
-		
+
 		if (method) {
 			$initiator = $(this);
 			e.preventDefault();
@@ -92,7 +92,7 @@ $(function() {
 
 			var form_action_class = (ajax_enabled == true) ? 'action-by-ajax' : 'action-default';
 			$form.addClass(form_action_class);
-			
+
             $form.trigger('submit');
 		}
 	});
