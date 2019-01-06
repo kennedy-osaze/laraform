@@ -35,6 +35,6 @@ class ShareFormLinkMail extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->subject($this->data['email_subject'])
-            ->markdown('emails.form-share');
+            ->markdown('emails.form.share');
     }
 }

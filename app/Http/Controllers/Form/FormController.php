@@ -13,9 +13,12 @@ class FormController extends Controller
     public function index()
     {
         $current_user = Auth::user();
-        $forms = $current_user->forms()->latest()->get();
 
-        return view('forms.form.index', compact('forms'));
+        $forms = $current_user->forms()->orWhereHas('collaborationUsers', function ($query) use ($current_user) {
+            $query->where('form_collaborators.user_id', $current_user->id);
+        })->latest()->get();
+
+        return view('forms.form.index', compact('forms', 'current_user'));
     }
 
     public function create()
@@ -69,17 +72,19 @@ class FormController extends Controller
 
     public function show(Form $form)
     {
-        $not_allowed = ($form->user_id !== Auth::id());
+        $current_user = Auth::user();
+        $not_allowed = ($form->user_id !== $current_user->id && !$current_user->isFormCollaborator($form->id));
         abort_if($not_allowed, 404);
 
-        $form->load('fields');
+        $form->load('fields', 'collaborationUsers');
 
         return view('forms.form.show', compact('form'));
     }
 
     public function edit(Form $form)
     {
-        $not_allowed = ($form->user_id !== Auth::id());
+        $current_user = Auth::user();
+        $not_allowed = ($form->user_id !== $current_user->id && !$current_user->isFormCollaborator($form->id));
         abort_if($not_allowed, 404);
 
         return view('forms.form.edit', compact('form'));
@@ -87,7 +92,8 @@ class FormController extends Controller
 
     public function update(Request $request, Form $form)
     {
-        $not_allowed = ($form->user_id !== Auth::id());
+        $current_user = Auth::user();
+        $not_allowed = ($form->user_id !== $current_user->id && !$current_user->isFormCollaborator($form->id));
         abort_if($not_allowed, 404);
 
         $this->validate($request, [
@@ -116,7 +122,7 @@ class FormController extends Controller
             }
 
             $current_user = Auth::user();
-            $not_allowed = ($form->user_id !== $current_user->id);
+            $not_allowed = ($form->user_id !== $current_user->id && !$current_user->isFormCollaborator($form->id));
             if ($not_allowed) {
                 return response()->json([
                     'success' => false,
@@ -213,7 +219,7 @@ class FormController extends Controller
     public function previewForm(Form $form)
     {
         $current_user = Auth::user();
-        $not_allowed = ($form->user_id !== $current_user->id);
+        $not_allowed = ($form->user_id !== $current_user->id && !$current_user->isFormCollaborator($form->id));
         abort_if($not_allowed, 404);
 
         return view('forms.form.view_form', ['form' => $form, 'view_type' => 'preview']);
@@ -222,7 +228,7 @@ class FormController extends Controller
     public function openFormForResponse(Form $form)
     {
         $current_user = Auth::user();
-        $not_allowed = ($form->user_id != $current_user->id);
+        $not_allowed = ($form->user_id !== $current_user->id && !$current_user->isFormCollaborator($form->id));
         abort_if($not_allowed, 403);
 
         $not_allowed = (!in_array($form->status, [Form::STATUS_PENDING, Form::STATUS_CLOSED]));
@@ -242,7 +248,7 @@ class FormController extends Controller
     public function closeFormToResponse(Form $form)
     {
         $current_user = Auth::user();
-        $not_allowed = ($form->user_id != $current_user->id);
+        $not_allowed = ($form->user_id !== $current_user->id && !$current_user->isFormCollaborator($form->id));
         abort_if($not_allowed, 403);
 
         $not_allowed = ($form->status !== Form::STATUS_OPEN);
@@ -273,7 +279,7 @@ class FormController extends Controller
             $form = Form::where('code', $form)->first();
 
             $current_user = Auth::user();
-            if (!$form || $form->user_id !== $current_user->id) {
+            if (!$form || ($form->user_id !== $current_user->id && !$current_user->isFormCollaborator($form->id))) {
                 return response()->json([
                     'success' => false,
                     'error_message' => 'not_found',

@@ -235,17 +235,17 @@
                 }
             });
         }
-
-        function notify(type, message) {
-            noty({
-                width: 200,
-                text: message,
-                type: type,
-                dismissQueue: true,
-                timeout: 6000,
-                layout: 'top',
-                buttons: false
-            });
-        }
     });
+
+    function notify(type, message) {
+        noty({
+            width: 200,
+            text: message,
+            type: type,
+            dismissQueue: true,
+            timeout: 6000,
+            layout: 'top',
+            buttons: false
+        });
+    }
 </script>

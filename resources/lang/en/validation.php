@@ -211,8 +211,16 @@ return [
         ],
         'recipients_emails.*' => [
             'email' => 'One (or more) of the email addresses provided is not valid',
-            'max' => 'The maximum length for each email address is 255'
-        ]
+            'max' => 'The maximum length for each email address is :max'
+        ],
+        'collaborator_emails' => [
+            'required' => 'At least one collaborator email address is required',
+            'max' => 'The email addresses entered should not be more than :max'
+        ],
+        'collaborator_emails.*' => [
+            'email' => 'One (or more) of the email addresses provided is not valid',
+            'max' => 'The maximum length for each email address is :max'
+        ],
     ],
 
     /*

@@ -53,6 +53,17 @@
             }
         });
 
+        $('.tags-input').tagsinput({
+            maxTags: 20,
+            maxChars: 255,
+            trimValue: true,
+            tagClass: function(item){
+                return 'label bg-teal';
+            },
+        });
+
+        autosize($('.elastic'));
+
         function instantiateFormTemplateWithData(form, response) {
             var result = response.data;
             var template = $(result.sub_template);
@@ -362,17 +373,17 @@
             message = 'Error occured: ' + error;
             notify('error', message);
         }
-
-        function notify(type, message) {
-            noty({
-                width: 200,
-                text: message,
-                type: type,
-                dismissQueue: true,
-                timeout: 6000,
-                layout: 'top',
-                buttons: false
-            });
-        }
     });
+
+    function notify(type, message) {
+        noty({
+            width: 200,
+            text: message,
+            type: type,
+            dismissQueue: true,
+            timeout: 6000,
+            layout: 'top',
+            buttons: false
+        });
+    }
 </script>

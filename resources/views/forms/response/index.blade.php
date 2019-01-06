@@ -2,6 +2,8 @@
     $page = "{$form->title} - Response";
     $response_count = $form->responses()->has('fieldResponses')->count();
     $response_type_shown_is_summary = ($query === 'summary');
+
+    $current_user = auth()->user();
 @endphp
 
 @extends('layouts.app')
@@ -42,10 +44,9 @@
 
 @includeWhen($response_count, "forms.response.{$query}")
 
-@if ($form->status === $form::STATUS_OPEN)
-    @include('forms.partials._form-share')
-@endif
-@include('forms.partials._form-collaborate')
+@includeWhen(($form->status === $form::STATUS_OPEN), 'forms.partials._form-share')
+
+@includeWhen(($form->user_id !== $current_user->id), 'forms.partials._form-collaborate')
 
 @endsection
 
@@ -64,7 +65,28 @@
 
     <script>
         $(function () {
-            $('.styled').uniform();
+            autosize($('.elastic'));
+
+            $('.tags-input').tagsinput({
+                maxTags: 20,
+                maxChars: 255,
+                trimValue: true,
+                tagClass: function(item){
+                    return 'label bg-teal';
+                },
+            });
+
+            function notify(type, message) {
+                noty({
+                    width: 200,
+                    text: message,
+                    type: type,
+                    dismissQueue: true,
+                    timeout: 6000,
+                    layout: 'top',
+                    buttons: false
+                });
+            }
         });
     </script>
 @endsection

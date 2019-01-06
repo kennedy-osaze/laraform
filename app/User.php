@@ -55,4 +55,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Form::class);
     }
+
+    public function collaboratedForms()
+    {
+        return $this->belongsToMany(Form::class, 'form_collaborators', 'user_id', 'form_id')
+            ->withTimestamps();
+    }
+
+    public function isFormCollaborator($form)
+    {
+        return !is_null($this->collaboratedForms()->find($form));
+    }
 }

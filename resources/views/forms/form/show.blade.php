@@ -5,6 +5,8 @@
     ];
 
     $fields = $form->fields;
+
+    $current_user = auth()->user();
 @endphp
 
 @extends('layouts.app', $page_data)
@@ -58,7 +60,7 @@
             <div class="panel panel-body submit hidden">
                 <div class="text-right">
                     <button type="submit" class="btn btn-success btn-xs" id="submit" data-loading-text="Saving..." data-complete-text="Save">Save</button>
-                    @php $form_is_ready = in_array($form->status, [$form::STATUS_PENDING, $form::STATUS_CLOSED]); @endphp
+                    @php $form_is_ready = in_array($form->status, [$form::STATUS_PENDING, $form::STATUS_OPEN, $form::STATUS_CLOSED]); @endphp
                     <a href="{{ ($form_is_ready) ? route('forms.preview', $form->code) : 'javascript:void(0)' }}" class="btn btn-primary btn-xs position-right{{ ($form_is_ready) ? '' : ' hidden' }}" target="_blank" id="form-preview">Preview</a>
                 </div>
             </div>
@@ -98,10 +100,9 @@
 	</div>
 </div>
 
-@if ($form->status === $form::STATUS_OPEN)
-    @include('forms.partials._form-share')
-@endif
-@include('forms.partials._form-collaborate')
+@includeWhen(($form->status === $form::STATUS_OPEN), 'forms.partials._form-share')
+
+@includeWhen(($form->user_id !== $current_user->id), 'forms.partials._form-collaborate')
 @endsection
 
 @section('plugin-scripts')

@@ -4,6 +4,7 @@ namespace App;
 
 use Mail;
 use App\Mail\ShareFormLinkMail;
+use App\Mail\FormCollaborationMail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Iatstuti\Database\Support\CascadeSoftDeletes;
@@ -45,6 +46,12 @@ class Form extends Model
         return $this->hasMany(FormResponse::class);
     }
 
+    public function collaborationUsers()
+    {
+        return $this->belongsToMany(User::class, 'form_collaborators', 'form_id', 'user_id')
+            ->withTimestamps();
+    }
+
     public function generateCode()
     {
         do {
@@ -56,6 +63,14 @@ class Form extends Model
     {
         $message = new ShareFormLinkMail($this, $data);
         Mail::to($email)->send($message);
+    }
+
+    public function addCollaboratorAndSendEmail(User $user, $email_message = '', $is_user_new = false)
+    {
+        $this->collaborationUsers()->save($user);
+
+        $message = new FormCollaborationMail($this, $user, $email_message, $is_user_new);
+        Mail::to($user->email)->send($message);
     }
 
     public static function getStatusSymbols()

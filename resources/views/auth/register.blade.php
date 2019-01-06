@@ -3,7 +3,8 @@
 @section('title', 'Create an Account')
 
 @section('content')
-    <form id="register" method="post" action="{{ route('register') }}" autocomplete="off">
+    @php $params =  (isset($user_data['code'])) ? ['code' => $user_data['code']] : []; @endphp
+    <form id="register" method="post" action="{{ route('register', $params) }}" autocomplete="off">
         @csrf
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
@@ -28,7 +29,7 @@
                     </div>
 
                     <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" value="{{ old('email') }}" required>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" value="{{ (isset($user_data['email'])) ? $user_data['email'] : old('email') }}" required{{ isset($user_data['email']) ? ' disabled' : '' }}>
                         <div class="form-control-feedback">
                             <i class="icon-mail5 text-muted"></i>
                         </div>

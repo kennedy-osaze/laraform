@@ -17,7 +17,7 @@ class ResponseController extends Controller
     public function index(Form $form)
     {
         $current_user = Auth::user();
-        $not_allowed = ($form->user_id !== $current_user->id);
+        $not_allowed = ($form->user_id !== $current_user->id && !$current_user->isFormCollaborator($form->id));
         abort_if($not_allowed, 404);
 
         $valid_request_queries = ['summary', 'individual'];
@@ -27,8 +27,10 @@ class ResponseController extends Controller
 
         if ($query === 'summary') {
             $responses = [];
-            $form->load('fields.responses');
+            $form->load('fields.responses', 'collaborationUsers');
         } else {
+            $form->load('collaborationUsers');
+
             $responses = $form->responses()->has('fieldResponses')->with('fieldResponses.formField')->paginate(1, ['*'], 'response');
         }
 
@@ -155,7 +157,7 @@ class ResponseController extends Controller
     public function export(Form $form)
     {
         $current_user = Auth::user();
-        $not_allowed = ($form->user_id !== $current_user->id);
+        $not_allowed = ($form->user_id !== $current_user->id && !$current_user->isFormCollaborator($form->id));
         abort_if($not_allowed, 404);
 
         $not_allowed = $form->responses()->doesntExist();
@@ -168,7 +170,8 @@ class ResponseController extends Controller
     public function destroy(Form $form, FormResponse $response)
     {
         $current_user = Auth::user();
-        $not_allowed = ($form->user_id !== $current_user->id || $form->id !== $response->form_id);
+        $user_not_allowed = ($form->user_id !== $current_user->id && !$current_user->isFormCollaborator($form->id));
+        $not_allowed = ($user_not_allowed || $form->id !== $response->form_id);
         abort_if($not_allowed, 403);
 
         $response->delete();
@@ -183,7 +186,7 @@ class ResponseController extends Controller
     public function destroyAll(Form $form)
     {
         $current_user = Auth::user();
-        $not_allowed = ($form->user_id !== $current_user->id);
+        $not_allowed = ($form->user_id !== $current_user->id && !$current_user->isFormCollaborator($form->id));
         abort_if($not_allowed, 403);
 
         $responses = $form->responses()->get();

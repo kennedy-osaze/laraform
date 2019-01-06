@@ -41,7 +41,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn bg-teal" data-loading-text="Sending...">Send</button>
+                    <button type="submit" class="btn bg-teal submit" data-loading-text="Sending...">Send</button>
                 </div>
             </form>
         </div>
@@ -51,8 +51,6 @@
 @push('script')
     <script>
         $(function () {
-            autosize($('.elastic'));
-
             $('[data-popup=tooltip-copy]').tooltip({
                 template: '<div class="tooltip"><div class="bg-teal"><div class="tooltip-arrow"></div><div class="tooltip-inner" id="copy-tooltip"></div></div></div>',
                 container: 'body'
@@ -73,18 +71,9 @@
                 }, 3000);
             });
 
-            $('.tags-input').tagsinput({
-                maxTags: 20,
-                maxChars: 255,
-                trimValue: true,
-                tagClass: function(item){
-                    return 'label bg-teal';
-                },
-            });
-
             $('#share-form-via-email').validate({
                 submitHandler: function (form) {
-                    processForm(form);
+                    shareForm(form);
                     return false;
                 },
                 'rules': {
@@ -115,10 +104,10 @@
                 }
             });
 
-            function processForm(form) {
+            function shareForm(form) {
                 var $form = $(form);
 
-                submit_button = $form.find('#submit');
+                submit_button = $form.find('.submit');
                 submit_button.button('loading');
 
                 $.ajax({
@@ -137,18 +126,6 @@
                     } else {
                         notify('error', 'Error occurred: ' + response.error);
                     }
-                });
-            }
-
-            function notify(type, message) {
-                noty({
-                    width: 200,
-                    text: message,
-                    type: type,
-                    dismissQueue: true,
-                    timeout: 6000,
-                    layout: 'top',
-                    buttons: false
                 });
             }
         });

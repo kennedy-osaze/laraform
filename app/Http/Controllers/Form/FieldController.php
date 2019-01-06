@@ -16,21 +16,12 @@ class FieldController extends Controller
         if ($request->ajax()) {
             $form = Form::where('code', $form)->first();
 
-            if (!$form) {
+            $current_user = Auth::user();
+            if (!$form || ($form->user_id !== $current_user->id && !$current_user->isFormCollaborator($form->id))) {
                 return response()->json([
                     'success' => false,
                     'error_message' => 'validation_failed',
                     'error' =>  'Form is invalid',
-                ]);
-            }
-
-            $current_user = Auth::user();
-            $not_allowed = ($form->user_id !== $current_user->id);
-            if ($not_allowed) {
-                return response()->json([
-                    'success' => false,
-                    'error_message' => 'not_allowed',
-                    'error' =>  'Form is invalid'
                 ]);
             }
 
@@ -77,7 +68,7 @@ class FieldController extends Controller
             $form = Form::where('code', $form)->first();
 
             $current_user = Auth::user();
-            if (!$form || $form->user_id != $current_user->id) {
+            if (!$form || ($form->user_id !== $current_user->id && !$current_user->isFormCollaborator($form->id))) {
                 return response()->json([
                     'success' => false,
                     'error_message' => 'validation_failed',

@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('demo', function () {
-
-});
-
 Route::get('/', function () { return view('welcome'); })->name('home');
 
 Route::namespace('Form')->group(function () {
@@ -70,4 +66,8 @@ Route::middleware(['auth', 'verified'])->namespace('Form')->group(function () {
     Route::get('forms/{form}/responses/download', 'ResponseController@export')->name('forms.response.export');
     Route::delete('forms/{form}/responses', 'ResponseController@destroyAll')->name('forms.responses.destroy.all');
     Route::delete('forms/{form}/responses/{response}', 'ResponseController@destroy')->name('forms.responses.destroy.single');
+
+    //Form Collaborator Routes
+    Route::post('forms/{form}/collaborators', 'CollaboratorController@store')->name('form.collaborators.store');
+    Route::delete('forms/{form}/collaborators/{collaborator}', 'CollaboratorController@destroy')->name('form.collaborator.destroy');
 });
