@@ -35,9 +35,9 @@
 
     <li class="divider"></li>
 
-    @if ($form->user_id === $current_user->id)
+    {{-- @if ($form->user_id === $current_user->id)
         <li><a href="#">Form Settings</a></li>
-    @endif
+    @endif --}}
 
     <li><a href="{{ route('forms.edit', $form->code) }}">Edit Form</a></li>
     @if ($form->status !== $form::STATUS_OPEN)
