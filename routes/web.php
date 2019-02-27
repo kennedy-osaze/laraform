@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', function () { return view('welcome'); })->name('home');
+Route::redirect('/', 'forms')->name('home');
 
 Route::namespace('Form')->group(function () {
     Route::get('forms/{form}/view', 'FormController@viewForm')->name('forms.view');
