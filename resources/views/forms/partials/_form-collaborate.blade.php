@@ -10,7 +10,7 @@
                 @csrf
                 <div class="modal-body">
                     <div class="alert alert-info alert-bordered">
-                        Collaborators will be able to modify form fields as well as delete a form responses
+                        Collaborators will be able to modify form fields as well as delete a form response
                     </div>
 
                     <p>Who has access?</p>

@@ -102,7 +102,7 @@
 
 @includeWhen(($form->status === $form::STATUS_OPEN), 'forms.partials._form-share')
 
-@includeWhen(($form->user_id !== $current_user->id), 'forms.partials._form-collaborate')
+@includeWhen(($form->user_id === $current_user->id), 'forms.partials._form-collaborate')
 @endsection
 
 @section('plugin-scripts')
