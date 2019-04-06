@@ -76,7 +76,7 @@ class FormController extends Controller
         $not_allowed = ($form->user_id !== $current_user->id && !$current_user->isFormCollaborator($form->id));
         abort_if($not_allowed, 404);
 
-        $form->load('fields', 'collaborationUsers');
+        $form->load('fields', 'collaborationUsers', 'availability');
 
         return view('forms.form.show', compact('form'));
     }

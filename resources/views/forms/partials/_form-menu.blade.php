@@ -22,6 +22,7 @@
     @endif
 
     <li class="dropdown-header highlight"><i class="icon-menu7"></i> <i class="icon-gear pull-right"></i> Form Menu</li>
+    <li><a data-toggle="modal" data-target="#form-availability" data-backdrop="static" data-keyboard="false">Form Availability Settings</a></li>
     @if (Route::currentRouteName() !== 'forms.show')
         <li><a href="{{ route('forms.show', $form->code) }}">View Form Template</a></li>
     @endif
