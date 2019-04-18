@@ -12,7 +12,10 @@
 */
 
 Route::get('demo', function () {
-    dd(Moment::createFromFormat('Y-m-d H:i:s', ''));
+    // dd(App\FormAvailability::with(['form' => function ($query) {
+    //     $query->withCount('responses');
+    // }])->toSql());
+    dd((new App\Jobs\CloseScheduledForm())->handle());
 });
 
 Route::redirect('/', 'forms')->name('home');
