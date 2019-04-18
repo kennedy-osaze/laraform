@@ -221,6 +221,52 @@ return [
             'email' => 'One (or more) of the email addresses provided is not valid',
             'max' => 'The maximum length for each email address is :max'
         ],
+        'open_form_date' => [
+            'required' => 'The date for which the form is open is required',
+            'date' => 'The date for which the form is open is invalid'
+        ],
+        'open_form_time' => [
+            'required' => 'The time for which the form is open is required',
+            'date_format' => 'The time for which the form is open is invalid'
+        ],
+        'open_form_at' => [
+            'date_format' => 'The date or time for which the form is open is invalid',
+            'after' => 'The date and time for which the form is open must be after the current date and time',
+        ],
+        'close_form_date' => [
+            'required' => 'The date for which the form is closed or the response limit must be specified',
+            'date' => 'The date for which the form is closed is invalid'
+        ],
+        'close_form_time' => [
+            'required' => 'The time for which the form is open is required',
+            'date_format' => 'The time for which the form is open is invalid'
+        ],
+        'close_form_at' => [
+            'date_format' => 'The date or time for which the form is closed is invalid',
+            'after' => 'The date and time for which the form is open must be after when the form is open',
+        ],
+        'response_limit' => [
+            'required' => 'Either the date and time for which the form is closed or the response limit must be specified',
+            'min' => 'The response limit must not be less than :min',
+            'max' => 'The response limit must not be more than :max',
+        ],
+        'weekday' => [
+            'required' => 'The day of the week the form should be open is required',
+            'in' => 'The week day is invalid',
+        ],
+        'start_time' => [
+            'required' => 'The day time of the week to open the form is required',
+            'date_format' => 'The day time of the week to open the form is invalid',
+        ],
+        'end_time' => [
+            'required' => 'The day time of the week to close the form is required',
+            'date_format' => 'The day time of the week to close the form is invalid',
+            'after' => 'The day time of the week to close the form must be after the time to open the form'
+        ],
+        'closed_form_message' => [
+            'min_words' => 'The closed form message should be at least 3 words',
+            'max' => 'The closed form message should not be more than :max characters'
+        ]
     ],
 
     /*
