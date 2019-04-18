@@ -8,6 +8,10 @@
 
 @extends('layouts.app')
 
+@section('plugin-css')
+    @stack('styles')
+@endsection
+
 @section('title', "My Form | {$page}")
 
 @section('content')
@@ -48,6 +52,7 @@
 
 @includeWhen(($form->user_id !== $current_user->id), 'forms.partials._form-collaborate')
 
+@include('forms.partials._form_availability')
 @endsection
 
 @section('plugin-scripts')

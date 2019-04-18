@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Jobs\OpenScheduledForm;
+use App\Jobs\CloseScheduledForm;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,8 +26,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->job(new CloseScheduledForm)->everyMinute()->runInBackground();
+        $schedule->job(new OpenScheduledForm)->everyMinute()->runInBackground();
     }
 
     /**

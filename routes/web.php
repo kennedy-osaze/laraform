@@ -11,6 +11,13 @@
 |
 */
 
+Route::get('demo', function () {
+    // dd(App\FormAvailability::with(['form' => function ($query) {
+    //     $query->withCount('responses');
+    // }])->toSql());
+    dd((new App\Jobs\CloseScheduledForm())->handle());
+});
+
 Route::redirect('/', 'forms')->name('home');
 
 Route::namespace('Form')->group(function () {
@@ -56,6 +63,8 @@ Route::middleware(['auth', 'verified'])->namespace('Form')->group(function () {
     Route::post('forms/{form}/close', 'FormController@closeFormToResponse')->name('forms.close');
 
     Route::post('forms/{form}/share-via-email', 'FormController@shareViaEmail')->name('form.share.email');
+    Route::post('forms/{form}/form-availability', 'FormAvailabilityController@save')->name('form.availability.save');
+    Route::delete('forms/{form}/form-availability/reset', 'FormAvailabilityController@reset')->name('form.availability.reset');
 
     //Form Field Routes
     Route::post('forms/{form}/fields/add', 'FieldController@store')->name('forms.fields.store');

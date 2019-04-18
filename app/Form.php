@@ -52,6 +52,11 @@ class Form extends Model
             ->withTimestamps();
     }
 
+    public function availability()
+    {
+        return $this->hasOne(FormAvailability::class);
+    }
+
     public function generateCode()
     {
         do {

@@ -76,7 +76,7 @@ class FormController extends Controller
         $not_allowed = ($form->user_id !== $current_user->id && !$current_user->isFormCollaborator($form->id));
         abort_if($not_allowed, 404);
 
-        $form->load('fields', 'collaborationUsers');
+        $form->load('fields', 'collaborationUsers', 'availability');
 
         return view('forms.form.show', compact('form'));
     }
@@ -267,7 +267,7 @@ class FormController extends Controller
 
     public function viewForm(Form $form)
     {
-        $not_allowed = ($form->status !== Form::STATUS_OPEN);
+        $not_allowed = !in_array($form->status, [Form::STATUS_OPEN, Form::STATUS_CLOSED]);
         abort_if($not_allowed, 404);
 
         return view('forms.form.view_form', ['form' => $form, 'view_type' => 'form']);

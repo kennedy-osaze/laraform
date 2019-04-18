@@ -27,7 +27,7 @@ class ResponseController extends Controller
 
         if ($query === 'summary') {
             $responses = [];
-            $form->load('fields.responses', 'collaborationUsers');
+            $form->load('fields.responses', 'collaborationUsers', 'availability');
         } else {
             $form->load('collaborationUsers');
 

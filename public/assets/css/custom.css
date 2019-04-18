@@ -80,8 +80,16 @@
     margin-bottom: 0 !important;
 }
 
+.mr-30 {
+    margin-right: 30px !important;
+}
+
 .mb-30 {
     margin-bottom: 30px !important;
+}
+
+.ml-30 {
+    margin-left: 30px !important;
 }
 
 .mt-30 {
@@ -161,4 +169,8 @@
 
 .table>tbody>tr>td>p {
     margin-bottom: 0;
+}
+
+#form-availability-form .pickatime + .picker>.picker__holder {
+    width: 75% !important;
 }
