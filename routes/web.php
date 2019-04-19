@@ -11,13 +11,6 @@
 |
 */
 
-Route::get('demo', function () {
-    // dd(App\FormAvailability::with(['form' => function ($query) {
-    //     $query->withCount('responses');
-    // }])->toSql());
-    dd((new App\Jobs\CloseScheduledForm())->handle());
-});
-
 Route::redirect('/', 'forms')->name('home');
 
 Route::namespace('Form')->group(function () {
