@@ -47,6 +47,10 @@ Route::namespace('Auth')->group(function () {
 });
 
 //Dashboard Routes
+
+Route::get('profile', 'ProfileController@index')->name('profile.index');
+Route::put('profile', 'ProfileController@update')->name('profile.update');
+
 Route::middleware(['auth', 'verified'])->namespace('Form')->group(function () {
     //Form Routes
     Route::get('forms', 'FormController@index')->name('forms.index');
